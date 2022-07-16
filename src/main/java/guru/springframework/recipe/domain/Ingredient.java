@@ -16,6 +16,7 @@ public class Ingredient {
     private Recipe recipe;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "uom_id", referencedColumnName = "id")
     private UnitOfMeasure unitOfMeasure;
 
     public Long getId() {

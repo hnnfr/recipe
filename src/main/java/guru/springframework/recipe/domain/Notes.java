@@ -9,6 +9,7 @@ public class Notes {
     private Long id;
 
     @OneToOne
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Recipe recipe;
 
     @Lob

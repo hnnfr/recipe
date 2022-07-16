@@ -5,9 +5,14 @@
     <title>Recipe Home</title>
 </head>
 <body>
-<h1>My Recipes!</h1>
-<h2>My New Recipes!</h2>
-
-<h3>My New Recipes! ----------------fqssfqdsfqsf </h3>
+<h2>My Recipes</h2>
+<ul>
+    <li th:each="recipe: ${recipeList}">
+        <div>
+            <strong th:text="${recipe.description}">recipe.description</strong>
+        </div>
+        <div th:text="${recipe.notes?.recipeNotes}">recipe.notes?.recipeNotes</div>
+    </li>
+</ul>
 </body>
 </html>
