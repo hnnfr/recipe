@@ -5,11 +5,12 @@ import javax.persistence.*;
 @Entity
 public class Notes {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+//    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+    @MapsId
     private Recipe recipe;
 
     @Lob

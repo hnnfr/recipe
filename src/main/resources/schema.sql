@@ -25,10 +25,11 @@ create table recipe (
 );
 
 create table notes (
-    id NUMBER(38) GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+    --id NUMBER(38) GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
     recipe_id NUMBER(38) NOT NULL,
     recipe_notes BLOB,
-    constraint notes_pk primary key (id),
+    --constraint notes_pk primary key (id),
+    constraint notes_pk primary key (recipe_id),
     constraint notes_fk_recipe
                    foreign key (recipe_id)
                    references recipe(id)

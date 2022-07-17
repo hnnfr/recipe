@@ -27,7 +27,7 @@ public class Recipe {
     @Lob
     private Byte[] image;
 
-    @OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Notes notes;
 
     @ManyToMany
