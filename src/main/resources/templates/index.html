@@ -1,18 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+          crossorigin="anonymous">
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous"></script>
+
     <meta charset="UTF-8"/>
     <title>Recipe Home</title>
+
 </head>
 <body>
-<h2>My Recipes</h2>
-<ul>
-    <li th:each="recipe: ${recipeList}">
-        <div>
-            <strong th:text="${recipe.description}">recipe.description</strong>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h2 class="panel-title">My Recipes!</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(recipeList)}">
+                        <table class="table table-hover">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>ID</th>
+                                <th>Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:remove="all">
+                                <td th:text="${recipe.id}">123</td>
+                                <td th:text="${recipe.description}">Bon à manger 1</td>
+                            </tr>
+                            <tr th:remove="all">
+                                <td th:text="${recipe.id}">123456</td>
+                                <td th:text="${recipe.description}">Bon à manger 2</td>
+                            </tr>
+                            <tr th:each="recipe: ${recipeList}">
+                                <td th:text="${recipe.id}">123456</td>
+                                <td th:text="${recipe.description}">Bon à manger 2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div th:text="${recipe.notes?.recipeNotes}">recipe.notes?.recipeNotes</div>
-    </li>
-</ul>
+    </div>
+</div>
+
+<!--<ul>-->
+<!--    <li th:each="recipe: ${recipeList}">-->
+<!--        <div>-->
+<!--            <strong th:text="${recipe.description}">recipe.description</strong>-->
+<!--        </div>-->
+<!--        <div th:text="${recipe.notes?.recipeNotes}">recipe.notes?.recipeNotes</div>-->
+<!--    </li>-->
+<!--</ul>-->
 </body>
 </html>
