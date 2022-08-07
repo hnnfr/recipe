@@ -1,7 +1,8 @@
 package guru.springframework.recipe.controllers;
 
+import guru.springframework.recipe.commands.RecipeCommand;
 import guru.springframework.recipe.domain.Recipe;
-import guru.springframework.recipe.services.RecipeServices;
+import guru.springframework.recipe.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -24,14 +25,15 @@ class IndexControllerTest {
 
     private IndexController indexController;
 
-    @Mock RecipeServices recipeServices;
+    @Mock
+    RecipeService recipeService;
 
     @Mock Model model;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        indexController = new IndexController(recipeServices);
+        indexController = new IndexController(recipeService);
     }
 
     @Test
@@ -45,15 +47,16 @@ class IndexControllerTest {
 
     @Test
     void getIndexPage() {
-        Recipe recipe = new Recipe();
-        List<Recipe> recipes = new ArrayList<>();
-        when(recipeServices.getAll()).thenReturn(recipes);
+        RecipeCommand recipe = new RecipeCommand();
+        List<RecipeCommand> recipes = new ArrayList<>();
+        recipes.add(recipe);
+        when(recipeService.getAll()).thenReturn(recipes);
 
         String pageName = indexController.getIndexPage(model);
         assertEquals("index", pageName);
-        verify(recipeServices, times(1)).getAll();
-        verify(model, times(1)).addAttribute(eq("recipeList"), anyList());
-//        verify(model, times(1)).addAttribute("recipeList", recipeServices.getAll());
+        verify(recipeService, times(1)).getAll();
+        verify(model, times(1)).addAttribute(eq("recipes"), anyList());
+//        verify(model, times(1)).addAttribute("recipes", recipeService.getAll());
 
         // Fail of course => and I will give explanation!
 //        List<Recipe> recipeList = (List<Recipe>) model.getAttribute("recipeList");
