@@ -1,7 +1,6 @@
 package guru.springframework.recipe.controllers;
 
 import guru.springframework.recipe.commands.RecipeCommand;
-import guru.springframework.recipe.domain.Recipe;
 import guru.springframework.recipe.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,7 +57,13 @@ class IndexControllerTest {
         verify(model, times(1)).addAttribute(eq("recipes"), anyList());
 //        verify(model, times(1)).addAttribute("recipes", recipeService.getAll());
 
-        // Fail of course => and I will give explanation!
+        /* Fail of course => and I will give explanation!
+         * => the model here is a mocked object, so technically its methods do nothing
+         * (if I do not explicitly tell it what to do with when(method call).thenReturn(object)
+         * And
+         * If I add this when..thenReturn to make the test work?
+         * I can, but in this case, I am not testing my program, but just testing Mockito! => non sense
+         */
 //        List<Recipe> recipeList = (List<Recipe>) model.getAttribute("recipeList");
 //        assertEquals(1, recipeList.size());
 //        assertEquals(recipe, recipeList.get(0));
