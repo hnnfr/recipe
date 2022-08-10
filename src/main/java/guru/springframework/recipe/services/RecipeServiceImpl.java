@@ -24,8 +24,8 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public RecipeCommand save(RecipeCommand recipeCommand) {
         Recipe recipe = mapper.recipeCommandToRecipe(recipeCommand);
-        Recipe returned = repository.save(recipe);
-        return mapper.recipeToRecipeCommand(returned);
+        Recipe savedRecipe = repository.save(recipe);
+        return mapper.recipeToRecipeCommand(savedRecipe);
     }
 
     @Override
