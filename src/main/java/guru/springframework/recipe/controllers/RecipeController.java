@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class RecipeController {
 
+    public static final String RECIPE = "recipe";
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
@@ -19,13 +20,20 @@ public class RecipeController {
     public String getRecipeById(@PathVariable Long id, Model model) {
 
         RecipeCommand recipeCommand = recipeService.getById(id);
-        model.addAttribute("recipe", recipeCommand);
+        model.addAttribute(RECIPE, recipeCommand);
         return "recipe/show";
     }
 
     @GetMapping("/recipe/new")
     public String newRecipe(Model model) {
-        model.addAttribute("recipe", new RecipeCommand());
+        model.addAttribute(RECIPE, new RecipeCommand());
+        return "recipe/recipeform";
+    }
+
+    @GetMapping("recipe/{id}/update")
+    public String updateRecipe(@PathVariable Long id, Model model) {
+        RecipeCommand recipeCommand = recipeService.getById(id);
+        model.addAttribute(RECIPE, recipeCommand);
         return "recipe/recipeform";
     }
 
