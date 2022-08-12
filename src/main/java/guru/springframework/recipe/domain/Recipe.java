@@ -43,6 +43,12 @@ public class Recipe {
 
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
+        ingredients.forEach(ingredient -> ingredient.setRecipe(this));
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        ingredients.add(ingredient);
+        ingredient.setRecipe(this);
     }
 
     public void setNotes(Notes notes) {

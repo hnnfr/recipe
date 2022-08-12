@@ -1,4 +1,4 @@
-package guru.springframework.recipe.service;
+package guru.springframework.recipe.services;
 
 import guru.springframework.recipe.commands.RecipeCommand;
 import guru.springframework.recipe.domain.Recipe;
