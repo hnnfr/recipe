@@ -40,4 +40,9 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe recipe = repository.findById(id).orElse(null);
         return recipe != null ? mapper.recipeToRecipeCommand(recipe) : null;
     }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
 }
