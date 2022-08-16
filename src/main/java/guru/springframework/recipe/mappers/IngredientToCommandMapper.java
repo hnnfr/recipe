@@ -9,7 +9,9 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface IngredientToCommandMapper {
 
+    @Mapping(source = "recipe.id", target = "recipeId")
     IngredientCommand ingredientToIngredientCommand(Ingredient entity);
+
     Ingredient ingredientCommandToIngredient(IngredientCommand command);
 
     @Mapping(target = "ingredients", ignore = true)
