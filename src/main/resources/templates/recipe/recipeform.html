@@ -29,8 +29,8 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label>Recipe Description:</label>
-                                    <input type="text" class="form-control" th:field="*{description}"/>
+                                    <label for="recipe-description">Recipe Description:</label>
+                                    <input id="recipe-description" type="text" class="form-control" th:field="*{description}"/>
                                 </div>
                             </div>
                             <div class="row">
@@ -54,16 +54,22 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label>Prep Time:</label>
-                                    <input type="text" class="form-control" th:field="*{prepTime}"/>
+                                    <label for="recipe-prepTime">Prep Time:</label>
+                                    <input id="recipe-prepTime" type="text" class="form-control" th:field="*{prepTime}"/>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Cooktime:</label>
-                                    <input type="text" class="form-control" th:field="*{cookTime}"/>
+                                    <label for="recipe-cookTime">Cooktime:</label>
+                                    <input id="recipe-cookTime" type="text" class="form-control" th:field="*{cookTime}"/>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Difficulty:</label>
-                                    <select class="form-control">
+                                    <label for="recipe-difficulty">Difficulty:</label>
+                                    <select id="recipe-difficulty" class="form-control" th:field="*{difficulty}">
+                                        <!--/*@thymesVar id="difficultyValue" type="guru.springframework.recipe.domain.Difficulty"*/-->
+                                        <option th:each="difficultyValue: ${T(guru.springframework.recipe.domain.Difficulty).values()}"
+                                                th:value="${difficultyValue.name()}"
+                                                th:text="${difficultyValue.name()}">val</option>
+                                    </select>
+                                    <select class="form-control" th:remove="all">
                                         <option>Easy</option>
                                         <option>Medium</option>
                                         <option>Hard</option>
@@ -72,16 +78,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
-                                    <label>Servings:</label>
-                                    <input type="text" class="form-control" th:field="*{servings}"/>
+                                    <label for="recipe-servings">Servings:</label>
+                                    <input id="recipe-servings" type="text" class="form-control" th:field="*{servings}"/>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>Source:</label>
-                                    <input type="text" class="form-control" th:field="*{source}"/>
+                                    <label for="recipe-source">Source:</label>
+                                    <input id="recipe-source" type="text" class="form-control" th:field="*{source}"/>
                                 </div>
                                 <div class="col-md-3 form-group">
-                                    <label>URL:</label>
-                                    <input type="text" class="form-control" th:field="*{url}"/>
+                                    <label for="recipe-url">URL:</label>
+                                    <input id="recipe-url" type="text" class="form-control" th:field="*{url}"/>
                                 </div>
                             </div>
                         </div>
@@ -114,24 +120,24 @@
                     </div>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h1 class="panel-title">Directions</h1>
+                            <h1 class="panel-title"><label for="recipe-directions">Directions</label></h1>
                         </div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12 form-group">
-                                    <textarea class="form-control" rows="3" th:field="*{directions}"></textarea></div>
+                                    <textarea id="recipe-directions" class="form-control" rows="3" th:field="*{directions}"></textarea></div>
                             </div>
                         </div>
                     </div>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h1 class="panel-title">Notes</h1>
+                            <h1 class="panel-title"><label for="recipe-notes">Notes</label></h1>
                         </div>
                         <div class="panel-body">
                             <input type="hidden" th:field="*{notes.id}"/>
                             <div class="row">
                                 <div class="col-md-12 form-group">
-                                    <textarea class="form-control" rows="3" th:field="*{notes.recipeNotes}"></textarea>
+                                    <textarea id="recipe-notes" class="form-control" rows="3" th:field="*{notes.recipeNotes}"></textarea>
                                 </div>
                             </div>
                         </div>
