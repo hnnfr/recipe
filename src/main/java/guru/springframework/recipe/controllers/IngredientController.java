@@ -62,4 +62,26 @@ public class IngredientController {
 
         return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
     }
+
+    @GetMapping("/recipe/{recipeId}/ingredient/{id}/delete")
+    public String deleteIngredient(@PathVariable Long recipeId, @PathVariable Long id, Model model) {
+        log.info("Delete ingredient {}", id);
+
+        ingredientService.deleteByRecipeIdAndId(recipeId, id);
+
+        return "redirect:/recipe/" + recipeId + "/ingredients";
+
+        /* We can do as following:
+         * Request the recipe by recipeId, put it in the model, and then render the view directly
+         * (list of ingredients for the recipe in this case).
+         * Doing that, Spring will not pass again by DispatcherSevlet, then select Controller's method
+         * by given URL. But the method is doing 2 things as a time (deleting ingredient and rendering
+         * view on recipe's ingredients) => it will be harder for testing and maintaining code.
+         * (Think about the case where view to be rendered is in another controller)
+         * Better use redirect here!
+         */
+//        model.addAttribute("recipe", recipeService.getById(recipeId));
+//        return "recipe/ingredient/list";
+
+    }
 }

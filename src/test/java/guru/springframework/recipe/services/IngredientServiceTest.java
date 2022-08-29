@@ -6,6 +6,7 @@ import guru.springframework.recipe.domain.Recipe;
 import guru.springframework.recipe.domain.UnitOfMeasure;
 import guru.springframework.recipe.mappers.IngredientToCommandMapper;
 import guru.springframework.recipe.mappers.IngredientToCommandMapperImpl;
+import guru.springframework.recipe.repositories.IngredientRepository;
 import guru.springframework.recipe.repositories.RecipeRepository;
 import guru.springframework.recipe.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,9 @@ class IngredientServiceTest {
     @Mock
     UnitOfMeasureRepository uomRepositoty;
 
+    @Mock
+    IngredientRepository ingredientRepository;
+
     IngredientToCommandMapper ingredientToCommandMapper;
 
     IngredientService ingredientService;
@@ -35,7 +39,7 @@ class IngredientServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         ingredientToCommandMapper = new IngredientToCommandMapperImpl();
-        ingredientService = new IngredientServiceImpl(recipeRepository, uomRepositoty, ingredientToCommandMapper);
+        ingredientService = new IngredientServiceImpl(recipeRepository, uomRepositoty, ingredientRepository, ingredientToCommandMapper);
     }
 
     @Test
@@ -48,7 +52,7 @@ class IngredientServiceTest {
         ingredient1.setId(1L);
 
         Ingredient ingredient2 = new Ingredient();
-        ingredient2.setId(1L);
+        ingredient2.setId(2L);
 
         Ingredient ingredient3 = new Ingredient();
         ingredient3.setId(3L);
@@ -84,7 +88,7 @@ class IngredientServiceTest {
         ingredient1.setUnitOfMeasure(unitOfMeasure1);
 
         Ingredient ingredient2 = new Ingredient();
-        ingredient2.setId(1L);
+        ingredient2.setId(2L);
 
         Ingredient ingredient3 = new Ingredient();
         ingredient3.setId(3L);
@@ -110,5 +114,45 @@ class IngredientServiceTest {
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(uomRepositoty, times(1)).findById(anyLong());
         verify(recipeRepository, times(1)).save(any());
+    }
+
+    @Test
+    void testDeleteByRecipeIdAndId() {
+        // given
+        Long recipeId = 1L;
+        Long id = 1L;
+        Recipe recipe = new Recipe();
+        recipe.setId(recipeId);
+
+        Ingredient ingredient1 = new Ingredient();
+        ingredient1.setId(id);
+
+        UnitOfMeasure unitOfMeasure1 = new UnitOfMeasure();
+        unitOfMeasure1.setId(1L);
+        ingredient1.setUnitOfMeasure(unitOfMeasure1);
+
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(2L);
+
+        Ingredient ingredient3 = new Ingredient();
+        ingredient3.setId(3L);
+
+        recipe.addIngredient(ingredient1);
+        recipe.addIngredient(ingredient2);
+        recipe.addIngredient(ingredient3);
+
+        Optional<Recipe> recipeOptional = Optional.of(recipe);
+        Optional<Ingredient> ingredientOptional = Optional.of(ingredient1);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(ingredientRepository.findById(anyLong())).thenReturn(ingredientOptional);
+
+        // when
+        ingredientService.deleteByRecipeIdAndId(recipeId, id);
+
+        // then
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(ingredientRepository, times(1)).findById(anyLong());
+        verify(ingredientRepository, times(1)).delete(any());
     }
 }

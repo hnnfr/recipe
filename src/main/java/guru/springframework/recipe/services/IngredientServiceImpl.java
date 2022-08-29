@@ -4,6 +4,7 @@ import guru.springframework.recipe.commands.IngredientCommand;
 import guru.springframework.recipe.domain.Ingredient;
 import guru.springframework.recipe.domain.Recipe;
 import guru.springframework.recipe.mappers.IngredientToCommandMapper;
+import guru.springframework.recipe.repositories.IngredientRepository;
 import guru.springframework.recipe.repositories.RecipeRepository;
 import guru.springframework.recipe.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +18,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository uomRepositoty;
+    private final IngredientRepository ingredientRepository;
     private final IngredientToCommandMapper ingredientToCommandMapper;
 
-    public IngredientServiceImpl(RecipeRepository recipeRepository, UnitOfMeasureRepository uomRepositoty, IngredientToCommandMapper ingredientToCommandMapper) {
+    public IngredientServiceImpl(RecipeRepository recipeRepository, UnitOfMeasureRepository uomRepositoty, IngredientRepository ingredientRepository, IngredientToCommandMapper ingredientToCommandMapper) {
         this.recipeRepository = recipeRepository;
         this.uomRepositoty = uomRepositoty;
+        this.ingredientRepository = ingredientRepository;
         this.ingredientToCommandMapper = ingredientToCommandMapper;
     }
 
@@ -79,6 +82,37 @@ public class IngredientServiceImpl implements IngredientService {
                             .filter(ingredient -> ingredient.getId().equals(ingredientCommand.getId()))
                             .findFirst()
                             .orElse(null));
+        }
+    }
+
+    @Override
+    public void deleteByRecipeIdAndId(Long recipeId, Long id) {
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+
+        if (!recipeOptional.isPresent()) {
+            log.error("Recipe not found for Id {}", recipeId);
+        } else {
+            Recipe recipe = recipeOptional.get();
+            Optional<Ingredient> ingredientOptional = ingredientRepository.findById(id);
+            if (!ingredientOptional.isPresent()) {
+                log.error("Ingredient not found for Id {}", id);
+            } else {
+                Ingredient ingredient = ingredientOptional.get();
+                recipe.removeIngredient(ingredient);
+
+                /* Note:
+                 * John does like this and does not create IngredientRepository, but it will
+                 * not work for me because of the integrity constraint in database (RECIPE_ID
+                 * of the INGREDIENT table cannot be NULL).
+                 *
+                 * I found that the solution of creating IngredientRepository and deleting ingredient
+                 * directly by using its repository is simpler (less cumbersome in code)
+                 */
+//                ingredient.setRecipe(null);
+//                recipeRepository.save(recipe);
+
+                ingredientRepository.delete(ingredient);
+            }
         }
     }
 }
